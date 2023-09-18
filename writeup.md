@@ -13,7 +13,7 @@ def encrypt23(s):
 Encrypted flag: 
 <code>f6-11620-13-918-2469-11157-94-116-115</code>
 
-##What the encryption is doing:
+## What the encryption is doing:
 The first letter of the plaintext is set to also be the first letter of the ciphertext.
 Then, each number in the ciphertext is the difference in ASCII value of the corresponding plaintext character and its previous character.
 
@@ -27,7 +27,7 @@ print(encrypt23("flag"))
 ```
 and the output will be <code>f6-116</code>
 
-##Solution:
+## Solution:
 Great, so as long as we figure out the differences of ASCII values given the ciphertext, we can reverse the encryption logic and figure out the plaintext.
 
 So far, we have that the difference between the second and first characters of the plaintext is 6.
@@ -38,7 +38,7 @@ We can check this by printing out <code>ord("a")-ord("l")</code> which actually 
 
 Ok. This is the main problem. There are numerous ways to interpret or 'break' the ciphertext into a list of numbers (the differences of ASCII values). I'm pretty sure through trial and error, one can eventually figure this out manually, but it's also possible to brute force all valid combinations.
 
-###Breaking the ciphertext
+### Breaking the ciphertext
 Let's just consider this group of the ciphertext <code>11620</code> (we'll add the negative in later). There are 5 numbers, in which there are 4 slots for dividers. Each slot either has or does not have a divider, giving us a total of <code>2 to the 4th power</code> number of possible ways to block this.
 
 To implement this, I used <code>itertools.product</code> to give all the combinations of <code>0</code> and <code>1</code> for length <code>len(group)-1</code>. Then, I go through each combination and if there's a <code>1</code>, then a space is inserted into that group of ciphertext, which will act as the divider.
@@ -81,7 +81,7 @@ def enumerate_groupings(group):
 ```
 Of course, if that negative sign is detected, then the program will remember that, strip that negative character temporarily, and then add it in as the last step after all 'dividers' have been inserted.
 
-###Putting it all together
+### Putting it all together
 The above code just takes care of one group of the ciphertext. It is up to the main program to create the groups, send them in, and then combine the 'divided' groupings together using yet again <code>itertools.product</code> into a grand list of numbers, representing the differences of ASCII values.
 ```python
 def decrypt23(e):
@@ -105,6 +105,7 @@ def decrypt23(e):
 
 print(decrypt23("f6-11620-13-918-2469-11157-94-116-115"))
 ```
-##Comments...
+## Comments...
+See complete code at <code>solve.py</code>
 
 I apologize for the one-liners and possibly overly complicated and inefficient logic. If you have any comments, improvements, and feedback, I'd love to hear them! 
